@@ -22,5 +22,9 @@ Route::get('/test-send-mail', 'ClientController@testMail');
 
 Route::prefix('users')->group(function(){
     Route::post('register', 'ClientController@registerClient');
+    Route::post('activate', 'ClientController@activateClient');
+    Route::post('login', 'ClientController@loginClient');
+    Route::post('getdetails', 'ClientController@getClientDetails');
+    Route::post('updatedetails', 'ClientController@updateClientDetails');
 });//end of user->prefix
 

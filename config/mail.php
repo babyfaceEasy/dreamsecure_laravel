@@ -119,5 +119,10 @@ return [
             resource_path('views/vendor/mail'),
         ],
     ],
+    
+    'to' => [
+        'address' => 'oodegbaro@gmail.com',
+        'name' => 'Dreamsecure Test'
+    ],
 
 ];

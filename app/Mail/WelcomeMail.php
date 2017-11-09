@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 use App\Client;
 
-class ActivationCode extends Mailable
+class WelcomeMail extends Mailable
 {
     use Queueable, SerializesModels;
     
@@ -32,6 +32,6 @@ class ActivationCode extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.mails');
+        return $this->view('emails.welcome');
     }
 }

@@ -9,11 +9,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 use App\Client;
 
-class ActivationCode extends Mailable
+class NotifyICEContacts extends Mailable
 {
     use Queueable, SerializesModels;
     
-    public $client;
+    public $client
 
     /**
      * Create a new message instance.
@@ -32,6 +32,6 @@ class ActivationCode extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.mails');
+        return $this->view('emails.notice_ice');
     }
 }
