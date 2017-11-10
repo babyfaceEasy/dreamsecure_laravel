@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ActivationCode;
 use App\Mail\WelcomeMail;
 use App\Mail\NotifyICEContacts;
+
+
+/**
+* @resource Client
+
+* This resource is in charge of dream secure app clients. These are the people that makes use of the application.
+* Handles activities like on boarding of a new client or welcoming back of an already existing client.
+*/
 class ClientController extends Controller
 {
     
@@ -65,17 +73,18 @@ class ClientController extends Controller
         return $return;
     }//end of generateResponse
 
+    /**
+    * Creates new dream secure app user
+    * The goal of this function is to create a new user for the dream secure app.
+    */
     public function registerClient(Request $request)
     {
-        
-        
-        
-        $user_data = $request->input('user');
-        $user_data = collect($user_data);
+        //$user_data = $request->input('user');
+        //$user_data = collect($user_data);
         //$test_data = collect(['name' => 'Olakunle', 'age' => 37, 'gender' => 'Male']);
         //dd($test_data['name']);
         
-        /*$this->validate($request, [
+        $this->validate($request, [
             'user.last_name' => 'required|min:2|max:100',
             'other_names' => 'required|min:2|max:100',
             'email' => 'required|email',
@@ -90,29 +99,29 @@ class ClientController extends Controller
             'rec_email_1' => 'required|email',
             'rec_email_2' => 'required|email',
             'rec_email_3' => 'required|email'
-        ]);*/
+        ]);
         
         //hash the password
-        //$request->user['password'] = Hash::make($request['password']);
-        $user_data['password'] = Hash::make($request->input('user.password'));
+        $request->password = Hash::make($request['password']);
+        //$user_data['password'] = Hash::make($request->input('user.password'));
         //generate the unique code
         $code = $this->getToken(5);
         
         //add it to $request object
-        //$request->request->user->add(['code'=> $code]);
-        $user_data['code'] = $code;
+        $request->request->user->add(['code'=> $code]);
+        //$user_data['code'] = $code;
         
         //dd($request->all());
         //dd($user_data);
         
         //check the email if it already exists
-        $res = $this->checkEmailAccount($request->user['email']);
+        $res = $this->checkEmailAccount($request->'email');
         //dd($res);
         if( $res == false ){
             //go ahead and create the client
             try{
-                //$client = Client::create($request->all());
-                $client = Client::create($user_data);
+                $client = Client::create($request->all());
+                //$client = Client::create($user_data);
             }catch(Exception $e){
                 //Log the messgae if any error
                 //$return['header']['status'] = "ERROR";
@@ -136,8 +145,8 @@ class ClientController extends Controller
             
         }else{
             //return the checkEmailAccount Value / Response
-            //$data = Client::where('email', $request['email'])->first();
-            $data = Client::where('email', $user_data['email'])->first();
+            $data = Client::where('email', $request['email'])->first();
+            //$data = Client::where('email', $user_data['email'])->first();
             //return $data->id;
             
             $return = $this->generateResponse("DONE", "200", null);
@@ -147,16 +156,20 @@ class ClientController extends Controller
         }
     }//end of registerClient
     
+    /**
+    * Activate a dream secure app user
+    * The goal of this function is to activate any user that is yet to be activated.
+    */
     public function activateClient(Request $request)
     {
-        $user_data = $request->input('user');
-        /*$this->validate($request->user, [
+        //$user_data = $request->input('user');
+        $this->validate($request->user, [
             'code' => 'required'
-        ]);*/
+        ]);
         
         //select users to see if they exist
-        //$res = Client::where('code', $request->input('code'))->first();
-        $res = Client::where('code', $user_data['code'])->first();
+        $res = Client::where('code', $request->input('code'))->first();
+        //$res = Client::where('code', $user_data['code'])->first();
         if($res ==  null){
             //no user found return null
             $return = $this->generateResponse("ERROR", "200", null);
@@ -205,14 +218,14 @@ class ClientController extends Controller
     
     public function loginClient(Request $request)
     {
-        $usr_data = $request->input('user');
-        /*$this->validate($request->user, [
+        //$usr_data = $request->input('user');
+        $this->validate($request->user, [
             'email' => 'required|email',
             'password' => 'required'
-        ]);*/  
+        ]);  
         try{
-            //$exist = Client::where('email', $request->input('email'))->first();
-            $exist = Client::where('email', $user_data['email'])->first();
+            $exist = Client::where('email', $request->input('email'))->first();
+            //$exist = Client::where('email', $user_data['email'])->first();
         }catch(Exception $e){
             \Log::error($e);
         }
@@ -229,7 +242,7 @@ class ClientController extends Controller
             return response()->json($return);
         }
         //check to see if password matches
-        if(Hash::check($user_data['password'], $exist->password)){
+        if(Hash::check($request->input('password') $exist->password)){
             //user exist and gave valid credentials 
             $return = $this->generateResponse("DONE", "200", null);
             $return['body']['userData'] = $exist->toArray();
@@ -244,7 +257,7 @@ class ClientController extends Controller
     
     public function getClientDetails(Request $request)
     {
-        $user_data = $request->input('user');
+        //$user_data = $request->input('user');
         //dd($request->user);
         /*
         dd($request->user);
@@ -261,11 +274,11 @@ class ClientController extends Controller
           "rec_email_2" => null
         ]
         */
-        /*$this->validate($request->user, [
+        $this->validate($request->user, [
             'id' => 'required'
-        ]);*/
+        ]);
         try{
-            $data = Client::find($user_data['id']);
+            $data = Client::find($request->input('id');
         }catch(Exception $e){
             \Log::error($e);
             
@@ -290,11 +303,10 @@ class ClientController extends Controller
     }//end of getClientDetails
     
     public function updateClientDetails(Request $request)
-    {
+    {   
+        //$user_data = $request->input('user');
         
-        $user_data = $request->input('user');
-        
-        /*$this->validate($request, [
+        $this->validate($request, [
             'id' => 'required',
             'last_name' => 'required|min:2|max:100',
             'other_names' => 'required|min:2|max:100',
@@ -310,13 +322,13 @@ class ClientController extends Controller
             'rec_email_1' => 'required|email',
             'rec_email_2' => 'required|email',
             'rec_email_3' => 'required|email'
-        ]);*/
-        
+        ]);   
         
         //$user = $request->input('user');
         //get the client
         try{
-            $client = Client::findOrFail($user_data['id']);
+            //$client = Client::findOrFail($user_data['id']);
+            $client = Client::findOrFail($request->input('id'));
             $client->fill($user_data)->save();
         }catch(Exception $e){
             \Log::error($e);
@@ -326,7 +338,7 @@ class ClientController extends Controller
         }
         
         //it was successful
-        $client = Client::findOrFail($user_data['id']);
+        $client = Client::findOrFail($request->input('id'));
         $return = $this->generateResponse("DONE", "200", null);
         $return['body'] = $client->toArray();
         

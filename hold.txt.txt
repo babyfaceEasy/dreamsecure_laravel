@@ -1,2 +1,21 @@
 Solutions to uncommon errors
 http://www.derekbliss.com/post/laravel-streamsocketenablecrypto-ssl-operation-failed-with-code-1
+
+// this is how to push a local branch straight to a remote master
+git push origin develop:master
+git push <remote> <local branch name>:<remote branch to push into>
+
+git branch development
+git add *
+git commit -m "My initial commit message"
+git push -u origin development
+
+git checkout master 
+git merge development
+git push -u origin master 
+
+=========BETTER METHOD ======
+(on branch development)$ git merge master
+(resolve any merge conflicts if there are any)
+git checkout master
+git merge development (there won't be any conflicts now)
