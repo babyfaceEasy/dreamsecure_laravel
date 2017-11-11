@@ -21,7 +21,7 @@ Route::get('/kunle', 'ClientController@registerClient');
 Route::get('/test-send-mail', 'ClientController@testMail');
 */
 
-Route::group(array( 'prefix' => 'users'),function(){
+Route::group(array( 'prefix' => 'users' ),function(){
     Route::post('register', 'ClientController@registerClient');
     Route::post('activate', 'ClientController@activateClient');
     Route::post('login', 'ClientController@loginClient');
