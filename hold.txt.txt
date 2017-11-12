@@ -19,3 +19,12 @@ git push -u origin master
 (resolve any merge conflicts if there are any)
 git checkout master
 git merge development (there won't be any conflicts now)
+
+//things left
+be able to delete a client
+be able to add new admin user
+make the get reports to require authentication
+be able to edit admin user details
+be able to change admin user password
+pu the code on the server
+create a documentation page for the api section for mobile developers
