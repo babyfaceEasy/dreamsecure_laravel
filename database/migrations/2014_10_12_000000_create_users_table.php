@@ -21,6 +21,11 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+        
+        /*Schema::table('clients', function (Blueprint $table){
+            //this is to add the column to handle blocked 
+            $table->boolean('blocked')->default(false);
+        });*/
     }
 
     /**

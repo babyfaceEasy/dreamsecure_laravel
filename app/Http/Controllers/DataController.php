@@ -8,6 +8,7 @@ use Mail;
 use App\Data;
 use App\Mail\AlertICEContacts;
 use App\Client;
+use Yajra\Datatables\Datatables;
 
 
 
@@ -62,4 +63,24 @@ class DataController extends Controller
         return response()->json($return);
         
     }//end of create()
+    
+    //this takes us to the view
+    public function viewAllReports(Request $request)
+    {
+        return view('reports');
+    }
+    
+    public function allReportsData(Request $request)
+    {
+        $alerts =  Data::all();
+        return Datatables::of($alerts)
+            ->addColumn('full_name', function($alert){
+                return $alert->client->last_name . ' ' . $alert->client->other_names;
+            })
+            ->editColumn('created_at', function($alert){
+                return date('M jS, Y', strtotime($alert->created_at));
+            })
+            ->make(true);
+        //return Datatables::of(Data::query)->make(true);
+    }//end of allData
 }
