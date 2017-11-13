@@ -26,6 +26,33 @@
             Each Accordion below represents endpoints and clicking to expand shows more details about the endpoint.
             Details like the required fields, the JSON format for both request and the JSON format for response.
         </p>
+        
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="label label-primary">POST</span>
+                /users/register
+            </div>
+            <div class="panel-body">
+                This endpoint makes it possible for you to create a new dream secure app user.
+                <code>
+                {
+                    "last_name": "Olakunle",
+                    "other_names": "Odegbaro",
+                    "email": "oodegbaro@gmail.com",
+                    "phone": "09097694139",
+                    "gender": "m",
+                    "password": "killacam",
+                    "ice_1": "090989784456",
+                    "ice_2": "090989784466",
+                    "ice_3": "090989784488",
+                    "rec_email_1": "o.odegbaro@dreammesh.ng",
+                    "rec_email_2": "o.odegbaro@gmail.com",
+                    "rec_email_3": "sanya@gmail.com"
+
+                }
+                </code>
+            </div>
+        </div>
     </div>
 
 <!-- Datatables Scripts -->
@@ -37,4 +64,4 @@
     <!-- Scripts -->
     <!--<script src="{{ asset('js/app.js') }}"></script> -->
 </body>
-</html>
+</html> 
